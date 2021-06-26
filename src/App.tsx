@@ -1,14 +1,25 @@
 import { createContext, useState } from 'react'
 import { BrowserRouter, Route } from 'react-router-dom'
 
-import { Home } from "./pages/Home";
-import { NewRoom } from "./pages/NewRoom";
-import { auth, firebase } from './services/firebase';
+import { Home } from "./pages/Home"
+import { NewRoom } from "./pages/NewRoom"
+import { auth, firebase } from './services/firebase'
 
-export const AuthContext = createContext({} as any)
+type User = {
+  id: string
+  name: string
+  avatar: string
+}
+
+type AuthContextType = {
+  user: User | undefined
+  signInWithGoogle: () => void
+}
+
+export const AuthContext = createContext({} as AuthContextType)
 
 function App() {
-  const [ user, setUser ] = useState()
+  const [ user, setUser ] = useState<User>()
 
   function signInWithGoogle() {
     const provider = new firebase.auth.GoogleAuthProvider()
@@ -31,7 +42,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <AuthContext.Provider value={{ user }}>
+      <AuthContext.Provider value={{ user, signInWithGoogle }}>
         <Route path="/" exact component={Home} />
         <Route path="/rooms/new" component={NewRoom} />
       </AuthContext.Provider>
