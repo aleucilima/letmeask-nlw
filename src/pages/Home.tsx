@@ -9,23 +9,13 @@ import googleIconImg from '../assets/images/google-icon.svg'
 
 import { Button } from '../components/Button'
 
-import { TestContext } from '../App'
-
-
 import '../styles/auth.scss'
 
 export function Home() {
   const history = useHistory()
-  const { value, setValue } = useContext(TestContext)
 
   function handleCreateRoom() {
-    const provider = new firebase.auth.GoogleAuthProvider()
-
-    auth.signInWithPopup(provider).then(result => {
-
-      history.push('/rooms/new')
-    })
-
+    history.push('/rooms/new')
   }
 
   return (
